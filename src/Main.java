@@ -9,8 +9,8 @@ class JogoDaVelha {
 
     public void desenharTabuleiro(char[][] tabuleiro) {
         for (char[] linha : tabuleiro) {
-            for (char coluna : linha) {
-                System.out.print(coluna + " ");
+            for (char elemento : linha) {
+                System.out.print(elemento + " ");
             }
             System.out.println();
         }
