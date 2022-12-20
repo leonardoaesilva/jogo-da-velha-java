@@ -1,8 +1,7 @@
 import java.util.Scanner;
 
 class JogoDaVelha {
-    boolean turnoJ1 = true;
-    char simbolo = '-';
+    boolean fimJogo = false;
 
     public void inicializarTabuleiro(char[][] tabuleiro) {
         for (int linha = 0; linha < tabuleiro.length; linha++) {
@@ -21,17 +20,51 @@ class JogoDaVelha {
         }
     }
 
-    private boolean validarJogada(char[][] tabuleiro, int l, int c) {
-        if (l < 0 || l > tabuleiro.length || c < 0 || c > tabuleiro.length) {
-            System.out.println("Posição inválida!");
-        }
+    public void manterJogo(char[][] tabuleiro) {
+        boolean turnoJ1 = true;
+        char simbolo;
 
-        for (int linha = 0; linha < tabuleiro.length; linha++) {
-            for (int coluna = 0; coluna < tabuleiro[linha].length; coluna++) {
-                if (tabuleiro[linha][coluna] != '#') {
+        while (!fimJogo) {
+            if (!turnoJ1) {
+                simbolo = 'O';
+            } else {
+                simbolo = 'X';
+            }
+            realizarJogada(tabuleiro, turnoJ1, simbolo);
+        }
+    }
+
+    private void realizarJogada(char[][] tabuleiro, boolean turno, char simbolo) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (!haVencedor(tabuleiro) && !derVelha(tabuleiro)) {
+            System.out.println("Turno de " + simbolo);
+            System.out.print("Jogador(a), insira a posição na LINHA que deseja jogar (0, 1 ou 2): ");
+            int jogadaLinha = scanner.nextInt();
+            System.out.print("Jogador(a), insira a posição na COLUNA que deseja jogar (0, 1 ou 2): ");
+            int jogadaColuna = scanner.nextInt();
+
+            boolean jogadaValida = validarJogada(tabuleiro, jogadaLinha, jogadaColuna);
+
+            if (jogadaValida) {
+                tabuleiro[jogadaLinha][jogadaColuna] = simbolo;
+                desenharTabuleiro(tabuleiro);
+                turno = !turno;
+            }
+        }
+    }
+
+    private boolean validarJogada(char[][] tabuleiro, int linha, int coluna) {
+        if (linha < 0 || linha > tabuleiro.length || coluna < 0 || coluna > tabuleiro.length) {
+            System.out.println("Posição inválida!");
+            return false;
+        } else {
+            for (int lin = 0; lin < tabuleiro.length; lin++) {
+                for (int col = 0; col < tabuleiro[lin].length; col++) {
+                    if (tabuleiro[linha][coluna] != '#') {
                         System.out.println("Uma jogada nessa posição já foi feita!");
-                } else {
-                    break;
+                        return false;
+                    }
                 }
             }
         }
@@ -39,29 +72,47 @@ class JogoDaVelha {
         return true;
     }
 
-    public void realizarJogada(char[][] tabuleiro) {
-        if (turnoJ1) {
-            simbolo = 'X';
-        } else {
-            simbolo = 'O';
-        }
-
-        while (true) {
-            Scanner scanner = new Scanner(System.in);
-
-            System.out.print("Jogador(a) " + simbolo + ", insira a posição na linha que deseja jogar (0, 1 ou 2): ");
-            int jogadaLinha = scanner.nextInt();
-            System.out.print("Jogador(a) " + simbolo + ", insira a posição na coluna que deseja jogar (0, 1 ou 2): ");
-            int jogadaColuna = scanner.nextInt();
-
-            boolean jogadaValida = validarJogada(tabuleiro, jogadaLinha, jogadaColuna);
-
-            if(jogadaValida) {
-                tabuleiro[jogadaLinha][jogadaColuna] = simbolo;
+    private boolean haVencedor(char[][] tabuleiro) {
+        for (int linha = 0; linha < tabuleiro.length; linha++) {
+            if (tabuleiro[linha][0] != '#' && tabuleiro[linha][0] == tabuleiro[linha][1] && tabuleiro[linha][1] == tabuleiro[linha][2]) {
+                System.out.println(tabuleiro[linha][0] + " venceu!");
+                fimJogo = true;
+                return true;
             }
-
-            desenharTabuleiro(tabuleiro);
         }
+
+        for (int coluna = 0; coluna < tabuleiro.length; coluna++) {
+            if (tabuleiro[0][coluna] != '#' && tabuleiro[0][coluna] == tabuleiro[1][coluna] && tabuleiro[1][coluna] == tabuleiro[2][coluna]) {
+                System.out.println(tabuleiro[0][coluna] + " venceu!");
+                fimJogo = true;
+                return true;
+            }
+        }
+
+        if (tabuleiro[0][0] != '#' && tabuleiro[0][0] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][2]) {
+            System.out.println(tabuleiro[0][0] + " venceu!");
+            fimJogo = true;
+            return true;
+        }
+
+        if (tabuleiro[0][2] != '#' && tabuleiro[0][2] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][0]) {
+            System.out.println(tabuleiro[0][0] + " venceu!");
+            fimJogo = true;
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean derVelha(char[][] tabuleiro) {
+        for (int linha = 0; linha < tabuleiro.length; linha++) {
+            for (int coluna = 0; coluna < tabuleiro[linha].length; coluna++) {
+                if (tabuleiro[linha][coluna] == '#') { return false; }
+            }
+        }
+
+        System.out.println("VELHA! Possibilidades de jogadas esgotadas.");
+        return true;
     }
 }
 
@@ -71,6 +122,8 @@ public class Main {
         JogoDaVelha jogo = new JogoDaVelha();
 
         jogo.inicializarTabuleiro(tabuleiro);
-        jogo.realizarJogada(tabuleiro);
+        System.out.println("Jogo iniciado!");
+        jogo.desenharTabuleiro(tabuleiro);
+        jogo.manterJogo(tabuleiro);
     }
 }
