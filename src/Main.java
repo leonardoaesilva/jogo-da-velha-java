@@ -61,7 +61,7 @@ class JogoDaVelha {
         return true;
     }
 
-
+    // TODO: 20/12/2022 checar caso do valor maior que o tamanho do vetor
     private boolean posicaoValida(char[][] tabuleiro, int linha, int coluna) {
         if (linha < 0 || linha > tabuleiro.length || coluna < 0 || coluna > tabuleiro.length) {
             System.out.println("Posição inválida!");
@@ -84,6 +84,7 @@ class JogoDaVelha {
         return true;
     }
 
+    // TODO: 20/12/2022 garantir a parada em caso de vitória
     private boolean haVencedor(char[][] tabuleiro) {
         if (checarLinhas(tabuleiro) || checarColunas(tabuleiro) || checarDiagonais(tabuleiro)) {
             jogoFinalizado = true;
@@ -126,7 +127,7 @@ class JogoDaVelha {
         return false;
     }
 
-
+    // TODO: 20/12/2022 funcionar o caso de velha no jogo
     private boolean derVelha(char[][] tabuleiro) {
         for (int linha = 0; linha < tabuleiro.length; linha++) {
             for (int coluna = 0; coluna < tabuleiro[linha].length; coluna++) {
