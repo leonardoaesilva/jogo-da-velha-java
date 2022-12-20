@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 class JogoDaVelha {
     boolean jogoFinalizado = true;
-    boolean turnoJ1 = true;
+    boolean turnoX = true;
     char simbolo;
 
     public void inicializarTabuleiro(char[][] tabuleiro) {
@@ -26,17 +26,16 @@ class JogoDaVelha {
         jogoFinalizado = false;
 
         while (!jogoFinalizado) {
-
-            if (turnoJ1) {
+            if (turnoX) {
                 simbolo = 'X';
             } else {
                 simbolo = 'O';
             }
-            realizarJogada(tabuleiro, turnoJ1, simbolo);
+            realizarJogada(tabuleiro, turnoX, simbolo);
         }
     }
 
-    private void realizarJogada(char[][] tabuleiro, boolean turno, char simbolo) {
+    private void realizarJogada(char[][] tabuleiro, boolean turnoJogador, char simbolo) {
         Scanner scanner = new Scanner(System.in);
 
         while (!haVencedor(tabuleiro) && !derVelha(tabuleiro)) {
@@ -51,7 +50,7 @@ class JogoDaVelha {
             if (jogadaValida) {
                 tabuleiro[jogadaLinha][jogadaColuna] = simbolo;
                 desenharTabuleiro(tabuleiro);
-                turno = !turno;
+                turnoJogador = !turnoJogador;
             }
         }
     }
