@@ -49,9 +49,8 @@ class JogoDaVelha {
         if (jogadaValida) {
             tabuleiro[jogadaLinha][jogadaColuna] = simbolo;
             desenharTabuleiro(tabuleiro);
+            turnoX = !turnoX;
         }
-
-        turnoX = !turnoX;
     }
 
     private boolean validarJogada(char[][] tabuleiro, int linha, int coluna) {
@@ -103,12 +102,13 @@ class JogoDaVelha {
     public boolean derVelha(char[][] tabuleiro) {
         for (int linha = 0; linha < tabuleiro.length; linha++) {
             for (int coluna = 0; coluna < tabuleiro[linha].length; coluna++) {
-                if (tabuleiro[linha][coluna] == '#') { return false; }
+                if (tabuleiro[linha][coluna] == '#') { jogoFinalizado = false; }
             }
         }
 
+        jogoFinalizado = true;
         System.out.println("VELHA! Possibilidades de jogadas esgotadas.");
-        return true;
+        return jogoFinalizado;
     }
 }
 
@@ -120,6 +120,7 @@ public class Main {
         jogo.inicializarTabuleiro(tabuleiro);
         System.out.println("Jogo iniciado!");
         jogo.desenharTabuleiro(tabuleiro);
+
         do {
             jogo.executarJogo(tabuleiro);
         } while (!jogo.haVencedor(tabuleiro) && !jogo.derVelha(tabuleiro));
