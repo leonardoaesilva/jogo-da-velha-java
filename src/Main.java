@@ -31,28 +31,27 @@ class JogoDaVelha {
             } else {
                 simbolo = 'O';
             }
-            realizarJogada(tabuleiro, turnoX, simbolo);
+            realizarJogada(tabuleiro, simbolo);
         }
     }
 
-    private void realizarJogada(char[][] tabuleiro, boolean turnoJogador, char simbolo) {
+    private void realizarJogada(char[][] tabuleiro, char simbolo) {
         Scanner scanner = new Scanner(System.in);
 
-        while (!haVencedor(tabuleiro) && !derVelha(tabuleiro)) {
-            System.out.println("Turno de " + simbolo);
-            System.out.print("Jogador(a), insira a posição na LINHA que deseja jogar (0, 1 ou 2): ");
-            int jogadaLinha = scanner.nextInt();
-            System.out.print("Jogador(a), insira a posição na COLUNA que deseja jogar (0, 1 ou 2): ");
-            int jogadaColuna = scanner.nextInt();
+        System.out.println("Turno de " + simbolo);
+        System.out.print("Jogador(a), insira a posição na LINHA que deseja jogar (0, 1 ou 2): ");
+        int jogadaLinha = scanner.nextInt();
+        System.out.print("Jogador(a), insira a posição na COLUNA que deseja jogar (0, 1 ou 2): ");
+        int jogadaColuna = scanner.nextInt();
 
-            boolean jogadaValida = validarJogada(tabuleiro, jogadaLinha, jogadaColuna);
+        boolean jogadaValida = validarJogada(tabuleiro, jogadaLinha, jogadaColuna);
 
-            if (jogadaValida) {
-                tabuleiro[jogadaLinha][jogadaColuna] = simbolo;
-                desenharTabuleiro(tabuleiro);
-                turnoJogador = !turnoJogador;
-            }
+        if (jogadaValida) {
+            tabuleiro[jogadaLinha][jogadaColuna] = simbolo;
+            desenharTabuleiro(tabuleiro);
         }
+
+        turnoX = !turnoX;
     }
 
     private boolean validarJogada(char[][] tabuleiro, int linha, int coluna) {
@@ -73,7 +72,7 @@ class JogoDaVelha {
         return true;
     }
 
-    private boolean haVencedor(char[][] tabuleiro) {
+    public boolean haVencedor(char[][] tabuleiro) {
         for (int linha = 0; linha < tabuleiro.length; linha++) {
             if (tabuleiro[linha][0] != '#' && tabuleiro[linha][0] == tabuleiro[linha][1] && tabuleiro[linha][1] == tabuleiro[linha][2]) {
                 System.out.println(tabuleiro[linha][0] + " venceu!");
@@ -101,7 +100,7 @@ class JogoDaVelha {
         return jogoFinalizado;
     }
 
-    private boolean derVelha(char[][] tabuleiro) {
+    public boolean derVelha(char[][] tabuleiro) {
         for (int linha = 0; linha < tabuleiro.length; linha++) {
             for (int coluna = 0; coluna < tabuleiro[linha].length; coluna++) {
                 if (tabuleiro[linha][coluna] == '#') { return false; }
@@ -121,6 +120,8 @@ public class Main {
         jogo.inicializarTabuleiro(tabuleiro);
         System.out.println("Jogo iniciado!");
         jogo.desenharTabuleiro(tabuleiro);
-        jogo.executarJogo(tabuleiro);
+        do {
+            jogo.executarJogo(tabuleiro);
+        } while (!jogo.haVencedor(tabuleiro) && !jogo.derVelha(tabuleiro));
     }
 }
