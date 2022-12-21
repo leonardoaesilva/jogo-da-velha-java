@@ -25,13 +25,15 @@ class JogoDaVelha {
     public void executarJogo(char[][] tabuleiro) {
         jogoFinalizado = false;
 
-        while (!haVencedor(tabuleiro) || !derVelha(tabuleiro)) {
+        while (!derVelha(tabuleiro) && !haVencedor(tabuleiro)) {
             if (!turnoO) {
                 simbolo = 'X';
             } else {
                 simbolo = 'O';
             }
             realizarJogada(tabuleiro, simbolo);
+//            derVelha(tabuleiro);
+//            haVencedor(tabuleiro);
         }
     }
 
@@ -83,7 +85,6 @@ class JogoDaVelha {
         return true;
     }
 
-    // TODO: 20/12/2022 garantir a parada em caso de vitória
     private boolean haVencedor(char[][] tabuleiro) {
         if (checarLinhas(tabuleiro) || checarColunas(tabuleiro) || checarDiagonais(tabuleiro)) {
             jogoFinalizado = true;
