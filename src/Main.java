@@ -61,9 +61,8 @@ class JogoDaVelha {
         return true;
     }
 
-    // TODO: 20/12/2022 checar caso do valor maior que o tamanho do vetor
     private boolean posicaoValida(char[][] tabuleiro, int linha, int coluna) {
-        if (linha < 0 || linha > tabuleiro.length || coluna < 0 || coluna > tabuleiro.length) {
+        if (linha < 0 || linha >= tabuleiro.length || coluna < 0 || coluna >= tabuleiro.length) {
             System.out.println("Posição inválida!");
             return false;
         }
