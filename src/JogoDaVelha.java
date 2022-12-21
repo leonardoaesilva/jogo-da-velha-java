@@ -42,18 +42,20 @@ public class JogoDaVelha {
         int jogadaLinha, jogadaColuna;
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Turno de (" + simbolo + ")");
+        System.out.println(">>> Turno de (" + simbolo + ") <<<");
 
-        System.out.print("Jogador(a), insira a posição na LINHA que deseja jogar (0, 1 ou 2): ");
+        System.out.println("Jogador(a), insira a posição na LINHA (1, 2 ou 3) que deseja jogar");
+        System.out.print("> ");
         if (scanner.hasNextInt()) {
-            jogadaLinha = scanner.nextInt();
+            jogadaLinha = scanner.nextInt() - 1;
         } else {
             throw new IllegalStateException();
         }
 
-        System.out.print("Jogador(a), insira a posição na COLUNA que deseja jogar (0, 1 ou 2): ");
+        System.out.println("Jogador(a), insira a posição na COLUNA (1, 2 ou 3) que deseja jogar");
+        System.out.print("> ");
         if (scanner.hasNextInt()) {
-            jogadaColuna = scanner.nextInt();
+            jogadaColuna = scanner.nextInt() - 1;
         } else {
             throw new IllegalStateException();
         }
@@ -104,7 +106,7 @@ public class JogoDaVelha {
     private boolean checarLinhas(char[][] tabuleiro) {
         for (int linha = 0; linha < tabuleiro.length; linha++) {
             if (tabuleiro[linha][0] != '#' && tabuleiro[linha][0] == tabuleiro[linha][1] && tabuleiro[linha][1] == tabuleiro[linha][2]) {
-                System.out.println("(" + tabuleiro[linha][0] + ") venceu o jogo pela linha " + (linha + 1) + "!");
+                System.out.println("(" + tabuleiro[linha][0] + ") venceu o jogo utilizando a linha " + (linha + 1) + "!");
                 return true;
             }
         }
@@ -115,7 +117,7 @@ public class JogoDaVelha {
     private boolean checarColunas(char[][] tabuleiro) {
         for (int coluna = 0; coluna < tabuleiro.length; coluna++) {
             if (tabuleiro[0][coluna] != '#' && tabuleiro[0][coluna] == tabuleiro[1][coluna] && tabuleiro[1][coluna] == tabuleiro[2][coluna]) {
-                System.out.println("(" + tabuleiro[0][coluna] + ") venceu o jogo pela coluna " + (coluna + 1) + "!");
+                System.out.println("(" + tabuleiro[0][coluna] + ") venceu o jogo utilizando a coluna " + (coluna + 1) + "!");
                 return true;
             }
         }
@@ -125,10 +127,10 @@ public class JogoDaVelha {
 
     private boolean checarDiagonais(char[][] tabuleiro) {
         if (tabuleiro[0][0] != '#' && tabuleiro[0][0] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][2]) {
-            System.out.println("(" + tabuleiro[0][0] + ") venceu o jogo pela diagonal principal!");
+            System.out.println("(" + tabuleiro[0][0] + ") venceu o jogo utilizando a diagonal principal!");
             return true;
         } else if (tabuleiro[0][2] != '#' && tabuleiro[0][2] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][0]) {
-            System.out.println("(" + tabuleiro[0][2] + ") venceu o jogo pela diagonal secundária!");
+            System.out.println("(" + tabuleiro[0][2] + ") venceu o jogo utilizando a diagonal secundária!");
             return true;
         }
 

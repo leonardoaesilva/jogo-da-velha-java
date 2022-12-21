@@ -4,7 +4,7 @@ public class Main {
         JogoDaVelha jogoDaVelha = new JogoDaVelha();
 
         jogoDaVelha.inicializarTabuleiro(tabuleiro);
-        System.out.println("Jogo iniciado!");
+        System.out.println(">>> Jogo iniciado! <<<");
         jogoDaVelha.desenharTabuleiro(tabuleiro);
         jogoDaVelha.executarJogo(tabuleiro);
     }
