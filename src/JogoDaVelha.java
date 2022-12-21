@@ -1,4 +1,3 @@
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class JogoDaVelha {
@@ -33,13 +32,13 @@ public class JogoDaVelha {
 
             try {
                 realizarJogada(tabuleiro, simbolo);
-            } catch (InputMismatchException e) {
+            } catch (IllegalStateException e) {
                 System.err.println("Apenas números são aceitos, tente novamente.");
             }
         }
     }
 
-    private void realizarJogada(char[][] tabuleiro, char simbolo) throws InputMismatchException {
+    private void realizarJogada(char[][] tabuleiro, char simbolo) throws IllegalStateException {
         int jogadaLinha, jogadaColuna;
 
         Scanner scanner = new Scanner(System.in);
@@ -49,14 +48,14 @@ public class JogoDaVelha {
         if (scanner.hasNextInt()) {
             jogadaLinha = scanner.nextInt();
         } else {
-            throw new InputMismatchException();
+            throw new IllegalStateException();
         }
 
         System.out.print("Jogador(a), insira a posição na COLUNA que deseja jogar (0, 1 ou 2): ");
         if (scanner.hasNextInt()) {
             jogadaColuna = scanner.nextInt();
         } else {
-            throw new InputMismatchException();
+            throw new IllegalStateException();
         }
 
         boolean jogadaValida = validarJogada(tabuleiro, jogadaLinha, jogadaColuna);
