@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class JogoDaVelha {
@@ -29,18 +30,34 @@ public class JogoDaVelha {
             } else {
                 simbolo = 'O';
             }
-            realizarJogada(tabuleiro, simbolo);
+
+            try {
+                realizarJogada(tabuleiro, simbolo);
+            } catch (InputMismatchException e) {
+                System.err.println("Apenas números são aceitos, tente novamente.");
+            }
         }
     }
 
-    private void realizarJogada(char[][] tabuleiro, char simbolo) {
-        Scanner scanner = new Scanner(System.in);
+    private void realizarJogada(char[][] tabuleiro, char simbolo) throws InputMismatchException {
+        int jogadaLinha, jogadaColuna;
 
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Turno de (" + simbolo + ")");
+
         System.out.print("Jogador(a), insira a posição na LINHA que deseja jogar (0, 1 ou 2): ");
-        int jogadaLinha = scanner.nextInt();
+        if (scanner.hasNextInt()) {
+            jogadaLinha = scanner.nextInt();
+        } else {
+            throw new InputMismatchException();
+        }
+
         System.out.print("Jogador(a), insira a posição na COLUNA que deseja jogar (0, 1 ou 2): ");
-        int jogadaColuna = scanner.nextInt();
+        if (scanner.hasNextInt()) {
+            jogadaColuna = scanner.nextInt();
+        } else {
+            throw new InputMismatchException();
+        }
 
         boolean jogadaValida = validarJogada(tabuleiro, jogadaLinha, jogadaColuna);
 
@@ -57,7 +74,7 @@ public class JogoDaVelha {
 
     private boolean posicaoValida(char[][] tabuleiro, int linha, int coluna) {
         if (linha < 0 || linha >= tabuleiro.length || coluna < 0 || coluna >= tabuleiro.length) {
-            System.out.println("Posição inválida!");
+            System.err.println("Posição inválida!");
             return false;
         }
 
@@ -68,7 +85,7 @@ public class JogoDaVelha {
         for (int lin = 0; lin < tabuleiro.length; lin++) {
             for (int col = 0; col < tabuleiro[lin].length; col++) {
                 if (tabuleiro[linha][coluna] != '#') {
-                    System.out.println("Uma jogada nessa posição já foi feita!");
+                    System.err.println("Uma jogada nessa posição já foi feita!");
                     return false;
                 }
             }
