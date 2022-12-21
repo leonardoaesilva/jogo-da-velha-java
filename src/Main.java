@@ -1,9 +1,8 @@
 import java.util.Scanner;
 
 class JogoDaVelha {
-    boolean jogoFinalizado = true;
+    boolean jogoFinalizado = false;
     boolean turnoO = true;
-    char simbolo = 'O';
 
     public void inicializarTabuleiro(char[][] tabuleiro) {
         for (int linha = 0; linha < tabuleiro.length; linha++) {
@@ -23,8 +22,7 @@ class JogoDaVelha {
     }
 
     public void executarJogo(char[][] tabuleiro) {
-        jogoFinalizado = false;
-
+        char simbolo;
         while (!derVelha(tabuleiro) && !haVencedor(tabuleiro)) {
             if (!turnoO) {
                 simbolo = 'X';
@@ -32,8 +30,6 @@ class JogoDaVelha {
                 simbolo = 'O';
             }
             realizarJogada(tabuleiro, simbolo);
-//            derVelha(tabuleiro);
-//            haVencedor(tabuleiro);
         }
     }
 
@@ -56,11 +52,7 @@ class JogoDaVelha {
     }
 
     private boolean validarJogada(char[][] tabuleiro, int linha, int coluna) {
-        if (!posicaoValida(tabuleiro, linha, coluna) || !posicaoDisponivel(tabuleiro, linha, coluna)) {
-            return false;
-        }
-
-        return true;
+        return posicaoValida(tabuleiro, linha, coluna) && posicaoDisponivel(tabuleiro, linha, coluna);
     }
 
     private boolean posicaoValida(char[][] tabuleiro, int linha, int coluna) {
@@ -127,21 +119,25 @@ class JogoDaVelha {
         return false;
     }
 
-    // TODO: 20/12/2022 funcionar o caso de velha no jogo
     private boolean derVelha(char[][] tabuleiro) {
-        for (int linha = 0; linha < tabuleiro.length; linha++) {
-            for (int coluna = 0; coluna < tabuleiro[linha].length; coluna++) {
-                if (tabuleiro[linha][coluna] == '#') {
-                    jogoFinalizado = false;
-                }
-            }
-        }
-
-        if (jogoFinalizado) {
+        if (tabuleiroCheio(tabuleiro)) {
+            jogoFinalizado = true;
             System.out.println("VELHA! Possibilidades de jogadas esgotadas.");
         }
 
         return jogoFinalizado;
+    }
+
+    private boolean tabuleiroCheio(char[][] tabuleiro) {
+        for (int linha = 0; linha < tabuleiro.length; linha++) {
+            for (int coluna = 0; coluna < tabuleiro[linha].length; coluna++) {
+                if (tabuleiro[linha][coluna] == '#') {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }
 
